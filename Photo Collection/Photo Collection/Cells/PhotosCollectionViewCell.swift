@@ -9,8 +9,20 @@
 import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
-   
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
+    //MARK: -Outlets and actions-
+    @IBOutlet var image: UIImageView!
+    @IBOutlet var name: UILabel!
+    
+    //MARK: -Important variables-
+    var photo: Photo? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    //MARK: -Update Views-
+    func updateViews() {
+        
+    }
     
 }
