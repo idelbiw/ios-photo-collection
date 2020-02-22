@@ -10,11 +10,9 @@ import UIKit
 
 class PhotosCollectionVC: UICollectionViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
         setTheme()
-        
-
     }
     
     //MARK: -Important variables-
@@ -27,18 +25,15 @@ class PhotosCollectionVC: UICollectionViewController {
             guard let photoDetailVC = segue.destination as? PhotoDetailVC else {return}
             photoDetailVC.themeHelper = themeHelper
             photoDetailVC.photoController = photoController
-            photoDetailVC.delegate = self
             
         } else if segue.identifier == "CellSegue" {
             guard let photoDetailVC = segue.destination as? PhotoDetailVC else {return}
             photoDetailVC.themeHelper = themeHelper
             photoDetailVC.photoController = photoController
-            photoDetailVC.delegate = self
             
         } else if segue.identifier == "SelectThemeSegue" {
             guard let selectorVC = segue.destination as? ThemeSelectionVC else {return}
             selectorVC.themeHelper = themeHelper
-            
             
         }
     }
@@ -48,7 +43,7 @@ class PhotosCollectionVC: UICollectionViewController {
         if theme == "Dark" {
             self.collectionView.backgroundColor = .darkGray
         } else if theme == "Green" {
-            self.collectionView.backgroundColor = .systemGreen
+            self.collectionView.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         }
     }
     
@@ -58,9 +53,9 @@ class PhotosCollectionVC: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath) as? PhotosCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as? PhotosCollectionViewCell else { return UICollectionViewCell() }
         
-        //do stuff here
+        cell.photo = photoController.photos[indexPath.item]
         
         return cell
     }
@@ -97,10 +92,3 @@ class PhotosCollectionVC: UICollectionViewController {
     
 }
 
-extension PhotosCollectionVC: randomDelegate {
-    func reloadTheStuff() {
-        self.collectionView.reloadData()
-    }
-    
-    
-}

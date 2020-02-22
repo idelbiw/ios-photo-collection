@@ -8,27 +8,27 @@
 
 import UIKit
 
-protocol randomDelegate {
-    func reloadTheStuff()
-}
-
 class PhotoDetailVC: UIViewController, UITextFieldDelegate {
     
-    //MARK:-ViewDidLoad method-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK:-ViewWillAppear method-
+    override func viewWillAppear(_ animated: Bool) {
         updateViews()
         picker.delegate = self
         photoTitle.delegate = self
         setupToHideKeyboardOnTapOnView()
         setTheme()
-    }
+        textFieldContainer.layer.borderWidth = 1
+        textFieldContainer.layer.borderColor = UIColor.systemYellow.cgColor
+        let placeHolderAttrStr = NSAttributedString(string: "Add a title", attributes: [.foregroundColor  : #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1)])
+        photoTitle.attributedPlaceholder = placeHolderAttrStr
     
-    //MARK:-Outlet and Actions-
+    }
+    //MARK:-IBOutlet and IBActions-
+    @IBOutlet var textFieldContainer: UIView!
     @IBOutlet var image: UIImageView!
     @IBOutlet var photoTitle: UITextField!
     
-    @IBAction func addPhoto(_ sender: UIButton) {
+    @IBAction func addPhoto(_ sender: UIBarButtonItem) {
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
     }
@@ -39,7 +39,6 @@ class PhotoDetailVC: UIViewController, UITextFieldDelegate {
             !title.isEmpty else {return}
         let imageData = selectedImage.pngData()
         photoController?.Create(image: imageData!, title: title)
-        delegate?.reloadTheStuff()
         navigationController?.popViewController(animated: true)
     }
     
@@ -47,7 +46,6 @@ class PhotoDetailVC: UIViewController, UITextFieldDelegate {
     var photoController: PhotoController?
     var photo: Photo?
     var themeHelper: ThemeHelper?
-    var delegate: randomDelegate?
     var picker = UIImagePickerController()
     
     //MARK:-Important methods-
@@ -68,7 +66,7 @@ class PhotoDetailVC: UIViewController, UITextFieldDelegate {
         if theme == "Dark" {
             view.backgroundColor = .darkGray
         } else if theme == "Green" {
-            view.backgroundColor = .systemGreen
+            view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         }
     }
     

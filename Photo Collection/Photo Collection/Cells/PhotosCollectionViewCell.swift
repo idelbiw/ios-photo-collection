@@ -22,7 +22,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     //MARK: -Update Views-
     func updateViews() {
-        
+        image.image = UIImage(data: photo!.imageData)
+        name.text = photo?.title
     }
     
 }
